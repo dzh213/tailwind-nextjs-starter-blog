@@ -77,7 +77,8 @@ localhost:9000
 
 ### docker常用命令
 
->下载镜像：
+```
+下载镜像：
 `docker pull` <镜像名:tag>    如：下载centos镜像
 `docker pull centos`
 `docker pull sameersbn/redmine:latest`
@@ -108,7 +109,7 @@ localhost:9000
 例如：docker -p 3306:3306 # 映射本机的3306端口到容器的3306端口
 映射数据卷
 `docker -v /home/data:/opt/data` # 这里/home/data 指的是宿主机的目录地址，后者则是容器的目录地址
->
+```
 
 ***参考***
 1. [https://www.runoob.com/docker/](https://www.runoob.com/docker/)
