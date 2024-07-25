@@ -1,0 +1,43 @@
+---
+title: 群晖docker启动报database is locked
+date: 2024-7-25 16:40:23
+tags:
+  - 群晖
+  - docker
+summary: 群晖启动容器报：failed to initialize logging driver: database is locked
+---
+
+今天群晖使用docker重启下frp服务，结果莫名其妙报错，具体报错如下：
+
+```bash
+failed to initialize logging driver: database is locked
+```
+
+![](https://dzh213.oss-cn-beijing.aliyuncs.com/blog/20240725163542.png)
+
+于是感觉Google了一下，找到了这篇文章 [群晖Docker容器“failed to initialize logging driver“解决办法\_failed to initialize logging driver: database is l-CSDN博客](https://blog.csdn.net/qq_43419705/article/details/127337896)
+
+大体原因是因为容器日志被锁了，可能我在不同终端操作了，导致再次操作了，锁无法释放报错了，先按步骤解决问题。
+
+首先找到容器日志 的问题，使用命令
+```bash
+docker inspect --format='{{.LogPath}}'
+```
+
+![](https://dzh213.oss-cn-beijing.aliyuncs.com/blog/202407251639776.png)
+
+找到了容器日志的位置，我们直接cd到对应目录，rm掉被锁的log.db
+
+![](https://dzh213.oss-cn-beijing.aliyuncs.com/blog/202407251640229.png)
+
+已经看到log.db没了，我们再次start下容器看看
+
+![](https://dzh213.oss-cn-beijing.aliyuncs.com/blog/202407251641176.png)
+
+发现成功了，问题解决。
+
+
+
+
+参考：
+1、[群晖Docker容器“failed to initialize logging driver“解决办法\_failed to initialize logging driver: database is l-CSDN博客](https://blog.csdn.net/qq_43419705/article/details/127337896)
