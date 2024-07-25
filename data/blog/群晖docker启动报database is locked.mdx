@@ -19,7 +19,7 @@ failed to initialize logging driver: database is locked
 
 首先找到容器日志 的问题，使用命令
 ```bash
-docker inspect --format='{{.LogPath}}'
+docker inspect --format='{{.LogPath}}' 容器id
 ```
 
 ![](https://dzh213.oss-cn-beijing.aliyuncs.com/blog/202407251639776.png)
@@ -34,8 +34,9 @@ docker inspect --format='{{.LogPath}}'
 
 发现成功了，问题解决。
 
-
+&nbsp;
 
 
 参考：
+
 1、[群晖Docker容器“failed to initialize logging driver“解决办法\_failed to initialize logging driver: database is l-CSDN博客](https://blog.csdn.net/qq_43419705/article/details/127337896)
