@@ -1,0 +1,62 @@
+---
+title: git submodule仓库合并成单一仓库
+date: 2024-8-20 18:27:23
+tags: ["git"]
+summary: git submodule仓库管理太过繁琐，需合并成单一仓库，但不丢失历史提交记录，方便管理
+---
+
+# 背景
+公司有个应用是使用git submodule进行管理的，一个主仓库，关联了6个子仓库，设计的初衷是根据代码分层拆分成不同的仓库，利用git进行权限管理，如果需要其他部门或者外部进行共建，不开放核心代码，只开放底层扩展点来实现。
+理想很丰满，现实很骨感，实际在项目开发过程中，远比这问题多得多，一是没那么多共建的场景，二是日常开发涉及仓库太多，各个仓库分支必须保持统一，一旦上线合并代码涉及多个仓库维护，各种不方便。所以，既然没这么多场景，干脆合并成一个仓库，方便维护，但是还不能丢失历史的提交记录，方便查阅问题。
+
+# 实施
+## 1、克隆主仓库
+
+```bash
+git clone <主仓库的URL>
+cd <主仓库目录>
+```
+
+## 2、删除子模块配置
+
+删除`.gitmodules`文件和子模块的相关配置
+```bash
+git rm --cached path/to/submodule
+rm -rf path/to/submodule
+rm .gitmodules
+git commit -m "Remove submodule configuration"
+```
+
+## 3、添加子模块的仓库作为远程仓库
+为每个子模块添加一个远程仓库，并将其内容合并到主仓库中：
+
+```bash
+git remote add submodule1 <子模块1的URL>
+git fetch submodule1
+git merge --allow-unrelated-histories submodule1/master
+```
+
+对于其他子模块，重复上述步骤，替换`submodule1`和`<子模块1的URL>`为相应的子模块名称和URL。
+
+## 4、移动文件到子目录
+
+```bash
+mkdir submodule1
+git mv * submodule1/
+git commit -m "Move submodule1 content to submodule1 directory"
+```
+对于其他子模块，重复上述步骤，替换`submodule1`为相应的子目录名称。
+
+## 5、删除远程仓库引用
+
+```bash
+git remote remove submodule1
+```
+
+## 6、推送到远程仓库
+
+```bash
+git push origin master
+```
+
+通过重复操作3、4、5步骤，依次将所有子仓库合并到主仓库，最终实现合并成单一仓库，历史记录留存。注意，实际操作的过程中，最好备份好主仓库，以免出现意外情况。
