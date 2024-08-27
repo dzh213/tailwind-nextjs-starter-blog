@@ -11,7 +11,7 @@ acme.sh支持多个CA机构的免费证书，一般这种免费证书有效期�
 
 <TOCInline toc={props.toc} exclude="Introduction" />
 
-# 1、安装acme.sh
+## 1、安装acme.sh
 ```bash
 curl https://get.acme.sh | sh -s email=my@example.com
 ```
@@ -26,7 +26,7 @@ acme.sh默认安装路径
 alias acme.sh=~/.acme.sh/acme.sh
 ```
 
-# 2、生成证书
+## 2、生成证书
 
 acme.sh已经被ZeroSSL收购了，所以默认的证书申请服务商为ZeroSSL，你也可以替换为你想要的CA证书签发机构，如Let’s Encrypt Google等
 
@@ -77,7 +77,7 @@ acme.sh --issue --dns dns_cf -d example.com -d *.example.com
 
 证书申请会持续几分钟，耐心等待。执行成功后，相关证书会生成在 *.acme.sh* 目录下。
 
-# 3、copy证书
+## 3、copy证书
 
  *.acme.sh*  目录下的证书不要动，我们将生成的证书copy到nginx下。
 
@@ -89,11 +89,11 @@ acme.sh --install-cert -d example.com \
 --reloadcmd     "systemctl restart nginx"
 ```
 
-# 4、查看已安装证书的信息
+## 4、查看已安装证书的信息
 ```bash
 acme.sh --info -d example.com
 ```
-# 5、更新证书
+## 5、更新证书
 目前证书在 60 天以后会自动更新, 你无需任何操作. 今后有可能会缩短这个时间, 不过都是自动的, 你不用关心.
 执行完上面的证书安装过程后，如果cronjob正确安装的话，会自动生成一个自动更新证书的任务，使用命令查看。
 ```bash
@@ -102,7 +102,7 @@ cronjob -l
 存在任务的话等待证书自动更新即可。
 
 
-参考：
+*参考*：
 * [GitHub - acmesh-official/acme.sh: A pure Unix shell script implementing ACME client protocol](https://github.com/acmesh-official/acme.sh)
 * [使用acme.sh自动申请并部署免费的SSL证书 | hash070's blog](https://www.hash070.top/archives/acme-sh-note-2.html)
 * [使用 acme.sh 配置自动续签 SSL 证书 - 烧饼博客](https://u.sb/acme-sh-ssl/)
